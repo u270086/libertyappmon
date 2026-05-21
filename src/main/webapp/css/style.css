@@ -1,0 +1,116 @@
+/* style.css */
+
+/* 🌤️ Apply a subtle pastel gradient background to the entire page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top left, #e8cfc0, #c0d6e4); /* Warm peach to muted blue */
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* 🏷️ Style for the main heading */
+h2 {
+    color: #333;
+    font-size: 2.5em; /* Enlarged for emphasis */
+    margin-bottom: 20px;
+}
+
+/* 📊 Style the table container */
+table {
+    margin: 20px auto; /* Center the table horizontally */
+    border-collapse: collapse;
+    width: 80%;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Soft shadow for depth */
+}
+
+/* 🧱 Style for table headers and cells */
+th, td {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+    font-size: 0.85em; /* Reduced fontsize for header and data */
+}
+
+/* 🎨 Header row styling */
+th {
+    background-color: #0078D7; /* Microsoft blue */
+    color: white;
+}
+
+/* 🦓 Zebra striping for alternate rows */
+tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+/* ✨ Highlight table row on hover */
+table tr:hover {
+    background-color: #b7d9f5 !important; /* Deeper pastel blue for better contrast */
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+/* 🎛️ Style for dropdown and submit button */
+select, input[type="submit"] {
+    padding: 8px 12px;
+    font-size: 1em;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 💓 Pulse animation for logo */
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(1.06); opacity: 0.95; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.logo-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.logo-container img {
+  width: 280px;
+  height: auto;
+  animation: pulse 2.2s ease-in-out infinite;
+  transition: transform 0.3s ease-in-out;
+}
+
+.download-btn {
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(to right, #005fa3, #0077cc);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  background: linear-gradient(to right, #0077cc, #005fa3);
+  box-shadow: 0 0 10px rgba(0, 119, 204, 0.6);
+  transform: scale(1.05);
+}
+
+.halloween-disclaimer {
+  text-align: center;
+  margin: 20px;
+  color: orange;
+  font-weight: bold;
+  font-size: 1.25em; /* Adjust as needed */
+}
+
+.christmas-greeting {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  color: #2e8b57;
+  font-size: 2em;
+  text-align: center;
+  margin: 20px 0;
+  text-shadow: 2px 2px 8px #fff, 0 0 10px #b0e0e6;
+}
