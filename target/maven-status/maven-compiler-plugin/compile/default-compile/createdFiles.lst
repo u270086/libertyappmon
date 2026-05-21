@@ -1,8 +1,0 @@
-com\mfwas\api\ApiApplication.class
-com\mfwas\DownloadServlet.class
-com\mfwas\api\PlexKeysResource.class
-com\mfwas\IndexServlet.class
-com\mfwas\CSVReader.class
-com\mfwas\StartupListener.class
-com\mfwas\CSVServlet.class
-com\mfwas\api\PlexDataResource.class
