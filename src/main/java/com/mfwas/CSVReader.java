@@ -113,4 +113,39 @@ public class CSVReader {
             e.printStackTrace();
         }
     }
+
+        public static String readCsvAsHtmlTable(File csvFile) throws IOException {
+        StringBuilder html = new StringBuilder();
+        html.append("<table class=\"csv-table\">");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            String line;
+            boolean header = true;
+
+            while ((line = br.readLine()) != null) {
+                String[] cols = line.split(",", -1); // keep empty columns
+                html.append("<tr>");
+                for (String col : cols) {
+                    if (header) {
+                        html.append("<th>").append(escape(col)).append("</th>");
+                    } else {
+                        html.append("<td>").append(escape(col)).append("</td>");
+                    }
+                }
+                html.append("</tr>");
+                header = false;
+            }
+        }
+
+        html.append("</table>");
+        return html.toString();
+    }
+
+    private static String escape(String value) {
+        if (value == null) return "";
+        return value
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
+    }
 }
