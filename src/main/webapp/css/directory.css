@@ -1,0 +1,37 @@
+.directory-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.directory-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.directory-container select,
+.directory-container button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+#preview {
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    min-height: 120px;
+}
+
+.loading {
+    opacity: 0.6;
+    font-style: italic;
+}

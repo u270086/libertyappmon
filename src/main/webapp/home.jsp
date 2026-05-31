@@ -22,10 +22,10 @@
         <div class="tile-desc">Select PLEX & View Liberty CSV data</div>
     </a>
 
-    <a href="selectCsv" class="glass-tile">
-        <div class="tile-icon">📁</div>
-        <div class="tile-title">Select Any CSV</div>
-        <div class="tile-desc">Browse any directory and open CSV files</div>
+    <a href="directory/index.jsp" class="glass-tile">
+        <div class="tile-icon">📂</div>
+        <div class="tile-title">Select CSV</div>
+        <div class="tile-desc">Browse directories and preview CSV files</div>
     </a>
 
     <!-- ⭐ New React Landing Page Tile (future feature) -->
