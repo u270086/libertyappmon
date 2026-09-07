@@ -1,34 +1,47 @@
-package com.mfwas;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.annotation.WebServlet;
-import javax.json.*;
-import java.io.*;
+
+import java.io.IOException;
+import java.io.File;
+
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 
 @WebServlet("/api/directories")
 public class DirectorySearchServlet extends HttpServlet {
-
-    // You can change this to whatever root you want users to browse
-    private static final String BASE_PATH = "H:/";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
-        File base = new File(BASE_PATH);
+        String path = req.getParameter("path");
 
-        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        File dir;
 
-        File[] dirs = base.listFiles(File::isDirectory);
-        if (dirs != null) {
-            for (File d : dirs) {
-                arrayBuilder.add(d.getAbsolutePath());
+        if (path == null || path.isBlank()) {
+            File[] roots = File.listRoots();
+            dir = (roots != null && roots.length > 0) ? roots[0] : new File("/");
+        } else {
+            dir = new File(path).getCanonicalFile();
+        }
+
+        JsonArrayBuilder dirs = Json.createArrayBuilder();
+
+        if (dir.exists() && dir.isDirectory()) {
+            File[] subdirs = dir.listFiles(File::isDirectory);
+            if (subdirs != null) {
+                for (File d : subdirs) {
+                    dirs.add(d.getName());
+                }
             }
         }
 
         JsonObject json = Json.createObjectBuilder()
-                .add("directories", arrayBuilder)
+                .add("currentPath", dir.getAbsolutePath())   // ⭐ REQUIRED
+                .add("directories", dirs)                    // ⭐ REQUIRED
                 .build();
 
         resp.setContentType("application/json");

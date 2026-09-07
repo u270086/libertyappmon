@@ -13,17 +13,18 @@ public class FileListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
-        String dir = req.getParameter("dir");
+        // ⭐ FIX: match the JSP parameter name
+        String path = req.getParameter("path");
 
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
-        if (dir != null) {
-            File folder = new File(dir);
+        if (path != null) {
+            File folder = new File(path);
 
             if (folder.exists() && folder.isDirectory()) {
 
                 File[] csvFiles = folder.listFiles(
-                        f -> f.getName().toLowerCase().endsWith(".csv")
+                        f -> f.isFile() && f.getName().toLowerCase().endsWith(".csv")
                 );
 
                 if (csvFiles != null) {

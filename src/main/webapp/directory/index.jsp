@@ -3,12 +3,7 @@
 <html>
 <head>
     <title>Directory Explorer</title>
-
-    <!-- Global styles -->
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css?v=<%= System.currentTimeMillis() %>">
-
-    <!-- Directory Explorer styles -->
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/directory.css?v=<%= System.currentTimeMillis() %>">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/directory.css">
 </head>
 
 <body>
@@ -16,21 +11,27 @@
 <div class="directory-container">
     <h2>Directory Explorer</h2>
 
-    <!-- Directory dropdown -->
-    <label>Select a directory:</label>
-    <select id="directorySelect">
-        <option value="">Loading directories...</option>
-    </select>
+    <div class="path-bar">
+        <input type="text" id="pathInput" placeholder="Enter path (e.g. C:\ or /u/jason)">
+        <button id="goButton">Go</button>
+    </div>
 
-    <!-- CSV dropdown -->
-    <label style="margin-top:20px;">Select a CSV file:</label>
-    <select id="csvSelect" disabled>
-        <option value="">Select a directory first</option>
-    </select>
+    <div id="breadcrumbs" class="breadcrumbs"></div>
 
-    <!-- Preview area -->
-    <div id="preview">
-        <em>No CSV selected</em>
+    <div class="main-layout">
+
+        <div class="left-pane">
+            <div class="pane-header">Directories & CSV files</div>
+            <div id="dirList" class="list-panel"></div>
+        </div>
+
+        <div class="right-pane">
+            <div class="pane-header">CSV Preview</div>
+            <div id="preview" class="preview-panel">
+                <em>No CSV selected</em>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -38,81 +39,99 @@
     const base = "<%= request.getContextPath() %>";
 
     window.onload = function () {
-        loadDirectories();
+        loadDirectory(null);
+        document.getElementById("goButton").onclick = onGo;
     };
 
-    function loadDirectories() {
-        fetch(base + "/api/directories")
-            .then(response => response.json())
+    function onGo() {
+        const path = document.getElementById("pathInput").value.trim();
+        loadDirectory(path || null);
+    }
+
+    function loadDirectory(path) {
+        const url = base + "/api/directories" + (path ? "?path=" + encodeURIComponent(path) : "");
+
+        fetch(url)
+            .then(r => r.json())
             .then(data => {
-                const select = document.getElementById("directorySelect");
-                select.innerHTML = "";
-
-                data.directories.forEach(dir => {
-                    const opt = document.createElement("option");
-                    opt.value = dir;
-                    opt.textContent = dir;
-                    select.appendChild(opt);
-                });
-
-                select.disabled = false;
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Failed to load directories");
+                document.getElementById("pathInput").value = data.currentPath;
+                renderBreadcrumbs(data.currentPath);
+                renderDirectoryList(data.currentPath, data.directories);
+                loadCsvFiles(data.currentPath);
             });
     }
 
-    document.getElementById("directorySelect").addEventListener("change", function () {
-        const dir = this.value;
-        const csvSelect = document.getElementById("csvSelect");
+    function renderBreadcrumbs(path) {
+        const bc = document.getElementById("breadcrumbs");
+        bc.innerHTML = path;
+    }
 
-        if (!dir) {
-            csvSelect.disabled = true;
-            csvSelect.innerHTML = "<option>Select a directory first</option>";
-            return;
-        }
+    function renderDirectoryList(currentPath, directories) {
+        const container = document.getElementById("dirList");
+        container.innerHTML = "";
 
-        csvSelect.innerHTML = "<option>Loading...</option>";
+        const list = document.createElement("ul");
 
-        fetch(base + "/api/files?dir=" + encodeURIComponent(dir))
-            .then(response => response.json())
+        const up = document.createElement("li");
+        up.textContent = "⬆ ..";
+        up.onclick = () => goUp(currentPath);
+        list.appendChild(up);
+
+        directories.forEach(name => {
+            const li = document.createElement("li");
+            li.textContent = "📂 " + name;
+            li.onclick = () => loadDirectory(joinPath(currentPath, name));
+            list.appendChild(li);
+        });
+
+        container.appendChild(list);
+    }
+
+    function goUp(path) {
+        const idx = path.lastIndexOf("\\");
+        const parent = idx <= 2 ? path.substring(0, 3) : path.substring(0, idx);
+        loadDirectory(parent);
+    }
+
+    function joinPath(base, name) {
+        return base.endsWith("\\") ? base + name : base + "\\" + name;
+    }
+
+    function loadCsvFiles(path) {
+        const url = base + "/api/files?path=" + encodeURIComponent(path);
+
+        fetch(url)
+            .then(r => r.json())
             .then(data => {
-                csvSelect.innerHTML = "";
-                data.files.forEach(file => {
-                    const opt = document.createElement("option");
-                    opt.value = file;
-                    opt.textContent = file;
-                    csvSelect.appendChild(opt);
+                const container = document.getElementById("dirList");
+                const list = container.querySelector("ul");
+
+                data.files.forEach(name => {
+                    const li = document.createElement("li");
+                    li.textContent = "📄 " + name;
+
+                    li.onclick = () => {
+                        window.location.href = base + "/csvviewer.jsp?path="
+                            + encodeURIComponent(path)
+                            + "&file="
+                            + encodeURIComponent(name);
+                    };
+
+                    list.appendChild(li);
                 });
-
-                csvSelect.disabled = false;
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Failed to load CSV files");
             });
-    });
+    }
 
-    document.getElementById("csvSelect").addEventListener("change", function () {
-        const file = this.value;
-        const dir = document.getElementById("directorySelect").value;
-
-        if (!file) return;
-
+    function loadCsvPreview(path, file) {
         const preview = document.getElementById("preview");
-        preview.innerHTML = "<p class='loading'>Loading preview...</p>";
+        preview.innerHTML = "<p>Loading...</p>";
 
-        fetch(base + "/csvPreview?dir=" + encodeURIComponent(dir) + "&file=" + encodeURIComponent(file))
-            .then(response => response.text())
-            .then(html => {
-                preview.innerHTML = html;
-            })
-            .catch(err => {
-                console.error(err);
-                preview.innerHTML = "<p>Error loading CSV preview</p>";
-            });
-    });
+        const url = base + "/csvPreview?path=" + encodeURIComponent(path) + "&file=" + encodeURIComponent(file);
+
+        fetch(url)
+            .then(r => r.text())
+            .then(html => preview.innerHTML = html);
+    }
 </script>
 
 </body>

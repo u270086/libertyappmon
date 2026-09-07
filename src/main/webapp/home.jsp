@@ -25,7 +25,7 @@
     <a href="directory/index.jsp" class="glass-tile">
         <div class="tile-icon">📂</div>
         <div class="tile-title">Select CSV</div>
-        <div class="tile-desc">Browse directories and preview CSV files</div>
+        <div class="tile-desc">Browse Directories and Preview CSV Files</div>
     </a>
 
     <!-- ⭐ New React Landing Page Tile (future feature) -->

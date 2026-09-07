@@ -12,15 +12,16 @@ public class CsvPreviewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
-        String dir = req.getParameter("dir");
+        // ⭐ FIX: match the Directory Explorer JSP
+        String path = req.getParameter("path");
         String file = req.getParameter("file");
 
-        if (dir == null || file == null) {
+        if (path == null || file == null) {
             resp.getWriter().write("<p>No file selected</p>");
             return;
         }
 
-        File csv = new File(dir, file);
+        File csv = new File(path, file);
 
         if (!csv.exists()) {
             resp.getWriter().write("<p>File not found</p>");
@@ -34,4 +35,3 @@ public class CsvPreviewServlet extends HttpServlet {
         resp.getWriter().write(html);
     }
 }
-
