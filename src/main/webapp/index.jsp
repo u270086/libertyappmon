@@ -16,7 +16,7 @@
     //-- 💓 Logo selection with pulse animation section --
     String logoFile = "WAS_LOGO.png"; //Set the default logo
 
-    //LocalDate today = LocalDate.now();
+    LocalDate today = LocalDate.now();
     //LocalDate today = LocalDate.of(2025, Month.DECEMBER, 10); // Simulate Christmas period
     //LocalDate today = LocalDate.of(2025, Month.OCTOBER, 20); // Simulate Halloween period
 

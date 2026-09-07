@@ -1,6 +1,7 @@
 package com.mfwas;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,8 @@ public class IndexServlet extends HttpServlet {
     // Handle GET requests to /index
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        request.setAttribute("today", LocalDate.now());
 
         // Use CSVReader to get available PLEX keys
         CSVReader reader = new CSVReader();
