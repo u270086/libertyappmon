@@ -198,6 +198,28 @@ select, input[type="submit"] {
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+/* ⭐ Wizard Hero Banner */
+.hero-banner {
+    text-align: center;
+    margin: 20px auto 20px auto;
+    padding: 10px;
+}
+
+.hero-image {
+    max-width: 360px;        /* perfect mid-size */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: inline-block;
+}
+
+.hero-title {
+    font-size: 1.4rem;
+    margin-top: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+
 /* 🌟 WAS Pastel Glass Logo */
 .newWAS-logo-container {
     text-align: center;
@@ -229,4 +251,18 @@ select, input[type="submit"] {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.home-title {
+    font-size: 2.3rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 25px auto 35px auto;
+    padding: 16px 36px;
+    background: rgba(255,255,255,0.55);   /* slightly stronger glass */
+    backdrop-filter: blur(8px);           /* more definition */
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.22); /* deeper shadow */
+    border: 1px solid rgba(255,255,255,0.6); /* crisp edge */
+    width: fit-content;
 }

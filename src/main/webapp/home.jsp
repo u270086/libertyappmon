@@ -7,12 +7,14 @@
 </head>
 <body>
 
-<!-- ⭐ New WAS Logo Section -->
-<div class="newWAS-logo-container">
-    <img src="was-great-and-powerful.png" alt="WAS The Great and Powerful" class="newWAS-logo">
+<!-- ⭐ Wizard of WAS Hero Banner -->
+<div class="hero-banner">
+    <img src="images/WIZARD_WILL_OFF_WAS.png"
+         alt="Wizard of WAS"
+         class="hero-image">
 </div>
 
-<h2>Liberty App Monitor</h2>
+<h2 class="home-title">Liberty App Monitor</h2>
 
 <div class="tile-container">
 
@@ -28,7 +30,6 @@
         <div class="tile-desc">Browse Directories and Preview CSV Files</div>
     </a>
 
-    <!-- ⭐ New React Landing Page Tile (future feature) -->
     <a href="react/index.html" class="glass-tile disabled">
         <div class="tile-icon">⚛️</div>
         <div class="tile-title">React Dashboard (Coming soon)</div>
