@@ -348,8 +348,8 @@
                 //optional double click to open viewer page
                 li.addEventListener("dblclick", () => {
                     window.location.href = 
-                        base + "/csvviewer.jsp?path=" + encodeURIComponent(path) +
-                        "&file=" + encodeURIComponent(name); 
+                        base + "/csvviewer?path=" + encodeURIComponent(path) + 
+                        "&file=" + encodeURIComponent(name);
                 });
 
                 list.appendChild(li);
@@ -391,7 +391,7 @@
             header.style.marginBottom = "8px";
 
             const a = document.createElement("a");
-            a.href = base + "/csvviewer.jsp?path=" + encodeURIComponent(path) + "&file=" + encodeURIComponent(file);
+            a.href = base + "/csvviewer?path=" + encodeURIComponent(path) + "&file=" + encodeURIComponent(file);            
             a.textContent = "Open in CSV Viewer";
 
             header.appendChild(a);

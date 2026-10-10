@@ -1,11 +1,10 @@
-<%@ page import="java.io.*, com.mfwas.CSVReader" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>CSV Viewer</title>
-   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
 </head>
 
 <body>
@@ -13,26 +12,30 @@
 <h2>CSV Viewer</h2>
 
 <%
-    String path = request.getParameter("path");
-    String file = request.getParameter("file");
+    String error = (String) request.getAttribute("error");
+    String html  = (String) request.getAttribute("tableHtml");
+    String file  = (String) request.getAttribute("fileName");
+%>
 
-    if (path == null || file == null) {
-%>
-        <p>No file selected</p>
-<%
-    } else {
-        File csv = new File(path, file);
+<% if (error != null) { %>
 
-        if (!csv.exists()) {
-%>
-            <p>File not found: <%= csv.getAbsolutePath() %></p>
-<%
-        } else {
-            String html = CSVReader.readCsvAsHtmlTable(csv);
-            out.print(html);
-        }
-    }
-%>
+    <p style="color:#b00020;"><%= error %></p>
+
+<% } else if (html != null) { %>
+
+    <div class="csv-header">
+        <strong>Viewing:</strong> <%= file %>
+    </div>
+
+    <div class="csv-content">
+        <%= html %>
+    </div>
+
+<% } else { %>
+
+    <p>No CSV selected.</p>
+
+<% } %>
 
 </body>
 </html>
