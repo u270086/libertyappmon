@@ -1,4 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    // --- Christmas Window Logic ---
+    java.time.LocalDate today = java.time.LocalDate.now();
+    java.time.LocalDate christmas = java.time.LocalDate.of(today.getYear(), 12, 25);
+
+    java.time.LocalDate start = christmas.minusDays(7);
+    java.time.LocalDate end = christmas.plusDays(7);
+
+    boolean inChristmasWindow = !today.isBefore(start) && !today.isAfter(end);
+
+    // --- Manual override for testing ---
+    // Set to true to force Christmas mode even outside the date window
+    boolean testChristmasMode = false;
+
+    boolean showChristmasLogo = inChristmasWindow || testChristmasMode;
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,11 +23,17 @@
 </head>
 <body>
 
-<!-- ⭐ Wizard of WAS Hero Banner -->
+<!-- ⭐ Seasonal Banner -->
 <div class="hero-banner">
-    <img src="images/WIZARD_WILL_OFF_WAS.png"
-         alt="Wizard of WAS"
-         class="hero-image">
+    <% if (showChristmasLogo) { %>
+        <img src="images/WAS_LIBERTY_CHRISTMAS_2026.png"
+             alt="Christmas Liberty Logo"
+             class="hero-image">
+    <% } else { %>
+        <img src="images/WIZARD_WILL_OFF_WAS.png"
+             alt="Wizard of WAS"
+             class="hero-image">
+    <% } %>
 </div>
 
 <h2 class="home-title">Liberty App Monitor</h2>
